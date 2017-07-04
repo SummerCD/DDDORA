@@ -13,8 +13,11 @@ import xlrd
 
 
 book = Workbook()
-sheet1 = book.add_sheet(u'Hot')
+sheet1 = book.add_sheet('Hot',cell_overwrite_ok=True)
 i = 1
+sheet1.write(0,0,u'作者')
+sheet1.write(0,1,u'内容')
+sheet1.write(0,2,u'点赞')
 page = 1
 while page <= 10:
     url = 'http://www.qiushibaike.com/hot/page/' + str(page)
@@ -37,10 +40,11 @@ while page <= 10:
                 j += 1
                 sheet1.write(i,j,item[3])
                 j += 1
+                i += 1
     except urllib2.URLError, e:
         if hasattr(e,"code"):
             print e.code
         if hasattr(e,"reason"):
             print e.reason
-file_name = "HotTop20-" + datetime.datetime.now().strftime('%Y%m%d%I%M%S')+".xlsx"
+file_name = "HotTop20-" + datetime.datetime.now().strftime('%Y%m%d%I%M%S')+".xls"
 book.save(file_name)
